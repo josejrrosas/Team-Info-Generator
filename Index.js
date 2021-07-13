@@ -7,6 +7,7 @@
 
 const inquirer = require('inquirer');
 const fs = require('fs');
+const Manager = require('./lib/Manager');
 
 const employeeInput = () => {
     inquirer.prompt([
@@ -41,6 +42,9 @@ const managerInput = () => {
             message: 'What is your office number?',
         },
     ])
+    .then({
+        addEmployee();
+    })
 }
 
 const engineerInput = () => {
@@ -52,6 +56,9 @@ const engineerInput = () => {
             message: 'What is your github username?',
         },
     ])
+    .then({
+        addEmployee();
+    })
 }
 
 const internInput = () => {
@@ -63,6 +70,9 @@ const internInput = () => {
             message: 'What school do you attend?',
         },
     ])
+    .then({
+        addEmployee();
+    })
 }
 
 const addEmployee = () => {
@@ -86,4 +96,29 @@ const addEmployee = () => {
     })
 }
 
+const employeeSelect = () => {
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'addRole',
+            message: 'What role would you like to add?',
+            choices:['Manager','Engineer', 'Intern', 'Nevermind, team complete.'],
+        },
+    ])
+    //if else statement for selected employee
+    .then(val => {
+        if (val.addRole === 'Manager') {
+            managerInput();
+        } 
+        else if(val.addRole === 'Engineer'){
+          engineerInput();
+        }
+        else if(val.addRole === 'Intern'){
+          internInput();
+        }
+        else{
+            createHTML();
+        }
+      });
+}
 
