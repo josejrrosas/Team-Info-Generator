@@ -8,13 +8,16 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
 
-const employeeInput = () => {
-    inquirer.prompt([
+//Standard questions for every employee
+const employeeInput = (employee) => {
+    return inquirer.prompt([
         {
             type: 'input',
             name: 'name',
-            message: 'What is your name?',
+            message: 'What is your ' + `${employee}` + ' name?',
         },
 
         {
@@ -28,56 +31,69 @@ const employeeInput = () => {
             name: 'email',
             message: 'What is your email?',
         }
-
     ])
 }
 
 
+//Asks for manager's office number
 const managerInput = () => {
-    employeeInput();
-    inquirer.prompt([
-        {
+    employeeInput("manager's")
+    .then(function(){
+            return inquirer.prompt([
+            {
             type: 'input',
             name: 'officeNum',
-            message: 'What is your office number?',
-        },
-    ])
-    .then({
-        addEmployee();
+            message: 'What is the managers office number?',
+           },
+            ])
+        })
+    .then(function(){
+        return addEmployee();
     })
 }
 
+
+//asks for engineers github
 const engineerInput = () => {
-    employeeInput();
-    inquirer.prompt([
+    employeeInput("engineer's")
+    .then(function(){
+    return inquirer.prompt([
         {
             type: 'input',
             name: 'github',
-            message: 'What is your github username?',
+            message: 'What is the engineers github username?',
         },
-    ])
-    .then({
-        addEmployee();
+         ])
+    })
+    .then(function(){
+        return addEmployee();
     })
 }
 
+
+//asks for intern's school
 const internInput = () => {
-    employeeInput();
-    inquirer.prompt([
+    employeeInput("intern's")
+    .then(function(){
+    return inquirer.prompt([
         {
             type: 'input',
             name: 'school',
-            message: 'What school do you attend?',
+            message: 'What school does the intern attend?',
         },
-    ])
-    .then({
-        addEmployee();
+        ])
+    })
+    .then(function(){
+        return addEmployee();
     })
 }
 
+
+//asks if there is another employee to be added, 
+//this will be called after every added employee
 const addEmployee = () => {
     //ask if user would like to add another employee
-    inquirer.prompt([
+    return inquirer.prompt([
         {
             type: 'confirm',
             name: 'add',
@@ -87,7 +103,7 @@ const addEmployee = () => {
     .then(val => {
         //if yes, ask what the employee role is and return appropriate function
         if (val.add){
-            employeeSelect();
+            return employeeSelect();
         }
         //if no create html
         else{
@@ -96,8 +112,11 @@ const addEmployee = () => {
     })
 }
 
+
+//Asks what the employee role will be added. will be called if 
+//user wants to add another employee
 const employeeSelect = () => {
-    inquirer.prompt([
+    return inquirer.prompt([
         {
             type: 'list',
             name: 'addRole',
@@ -111,10 +130,10 @@ const employeeSelect = () => {
             managerInput();
         } 
         else if(val.addRole === 'Engineer'){
-          engineerInput();
+            engineerInput();
         }
         else if(val.addRole === 'Intern'){
-          internInput();
+            internInput();
         }
         else{
             createHTML();
@@ -122,3 +141,4 @@ const employeeSelect = () => {
       });
 }
 
+managerInput();
