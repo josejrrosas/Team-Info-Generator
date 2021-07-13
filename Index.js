@@ -9,7 +9,7 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 
 const employeeInput = () => {
-    return inquirer.prompt([
+    inquirer.prompt([
         {
             type: 'input',
             name: 'name',
@@ -19,14 +19,71 @@ const employeeInput = () => {
         {
             type: 'input',
             name: 'id',
-            message: 'What is your name?',
+            message: 'What is your id?',
         },
 
         {
             type: 'input',
             name: 'email',
-            message: 'What is your name?',
+            message: 'What is your email?',
         }
 
     ])
 }
+
+
+const managerInput = () => {
+    employeeInput();
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'officeNum',
+            message: 'What is your office number?',
+        },
+    ])
+}
+
+const engineerInput = () => {
+    employeeInput();
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'github',
+            message: 'What is your github username?',
+        },
+    ])
+}
+
+const internInput = () => {
+    employeeInput();
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'school',
+            message: 'What school do you attend?',
+        },
+    ])
+}
+
+const addEmployee = () => {
+    //ask if user would like to add another employee
+    inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'add',
+            message: 'Would you like to add another employee?',
+        }
+    ])
+    .then(val => {
+        //if yes, ask what the employee role is and return appropriate function
+        if (val.add){
+            employeeSelect();
+        }
+        //if no create html
+        else{
+            createHTML();
+        }
+    })
+}
+
+
