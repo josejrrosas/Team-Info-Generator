@@ -11,87 +11,83 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
-//Standard questions for every employee
-const employeeInput = (employee) => {
-    return inquirer.prompt([
-        {
-            type: 'input',
-            name: 'name',
-            message: 'What is your ' + `${employee}` + ' name?',
-        },
+const employees = [];
+const basicQuestions = [
+    {
+        type: 'input',
+        name: 'name',
+        message: 'What is the name of the employee?',
+    },
 
-        {
-            type: 'input',
-            name: 'id',
-            message: 'What is your id?',
-        },
+    {
+        type: 'input',
+        name: 'id',
+        message: 'What is the employees id?',
+    },
 
-        {
-            type: 'input',
-            name: 'email',
-            message: 'What is your email?',
-        }
-    ])
-}
-
+    {
+        type: 'input',
+        name: 'email',
+        message: 'What is the employees email?',
+    }
+];
 
 //Asks for manager's office number
 const managerInput = () => {
-    employeeInput("manager's")
-    .then(function(){
-            return inquirer.prompt([
-            {
+    inquirer.prompt([
+        ...basicQuestions,
+        {
             type: 'input',
             name: 'officeNum',
             message: 'What is the managers office number?',
-           },
-            ])
-        })
-    .then(function(){
-        return addEmployee();
+        }
+    ])
+    .then((answers) => {
+        // build new Manager() using constructor with answers and send to addEmployee
+        const mgr = new Manager(answers.name, answers.id, answers.email, answers.officeNum);
+        return addEmployee(mgr);
     })
 }
 
 
 //asks for engineers github
 const engineerInput = () => {
-    employeeInput("engineer's")
-    .then(function(){
     return inquirer.prompt([
+        ...basicQuestions,
         {
             type: 'input',
             name: 'github',
             message: 'What is the engineers github username?',
         },
          ])
-    })
-    .then(function(){
-        return addEmployee();
+    .then(function(answers){
+        const engnr = new Engineer(answers.name, answers.id, answers.email, answers.github);
+        return addEmployee(engnr);
     })
 }
 
 
 //asks for intern's school
 const internInput = () => {
-    employeeInput("intern's")
-    .then(function(){
     return inquirer.prompt([
+        ...basicQuestions,
         {
             type: 'input',
             name: 'school',
             message: 'What school does the intern attend?',
         },
         ])
-    })
-    .then(function(){
-        return addEmployee();
+    .then(function(answers){
+        const intrn = new Intern(answers.name, answers.id, answers.email, answers.school);
+        return addEmployee(intrn);
     })
 }
 
 
 //asks if there is another employee to be added, 
 //this will be called after every added employee
-const addEmployee = () => {
+const addEmployee = (employee) => {
+    employees.push(employee);
     //ask if user would like to add another employee
     return inquirer.prompt([
         {
@@ -140,5 +136,10 @@ const employeeSelect = () => {
         }
       });
 }
+
+const createHTML = () => {
+    // use employees array to  build HTML
+    console.log(employees);
+};
 
 managerInput();
