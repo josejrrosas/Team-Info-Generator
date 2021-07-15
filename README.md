@@ -57,7 +57,7 @@ Link to demonstration video :
 https://drive.google.com/file/d/1n4_CF6jnswm46CYrmThWWWkyBEygCDdR/view?usp=sharing
 
 Screenshot:
-![Shows basic functionality](.dist/demo.gif)
+![Shows basic functionality](/dist/demo.gif)
 
 --------------------------------------------------------------------------
 
