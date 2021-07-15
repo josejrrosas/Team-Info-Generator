@@ -45,7 +45,7 @@ const managerInput = () => {
     .then((answers) => {
         // build new Manager() using constructor with answers and send to addEmployee
         const mgr = new Manager(answers.name, answers.id, answers.email, answers.officeNum);
-        return addEmployee(mgr);
+        addEmployee(mgr);
     })
 }
 
@@ -62,7 +62,7 @@ const engineerInput = () => {
          ])
     .then(function(answers){
         const engnr = new Engineer(answers.name, answers.id, answers.email, answers.github);
-        return addEmployee(engnr);
+        addEmployee(engnr);
     })
 }
 
@@ -79,7 +79,7 @@ const internInput = () => {
         ])
     .then(function(answers){
         const intrn = new Intern(answers.name, answers.id, answers.email, answers.school);
-        return addEmployee(intrn);
+        addEmployee(intrn);
     })
 }
 
@@ -88,8 +88,9 @@ const internInput = () => {
 //this will be called after every added employee
 const addEmployee = (employee) => {
     employees.push(employee);
+    createHTML(employee);
     //ask if user would like to add another employee
-    return inquirer.prompt([
+    inquirer.prompt([
         {
             type: 'confirm',
             name: 'add',
@@ -103,11 +104,10 @@ const addEmployee = (employee) => {
         }
         //if no create html
         else{
-            createHTML();
+            finishHtml();
         }
     })
 }
-
 
 //Asks what the employee role will be added. will be called if 
 //user wants to add another employee
@@ -132,14 +132,124 @@ const employeeSelect = () => {
             internInput();
         }
         else{
-            createHTML();
+            finishHTML();
         }
       });
 }
 
-const createHTML = () => {
+function startHtml() {
+    const html = `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <title>Team Profile Generator</title>
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-dark bg-danger bg-gradient p-5">
+                <div class="container-fluid">
+                  <span class="navbar-brand mb-0 h1 mx-auto fs-1">My Team</span>
+                </div>
+              </nav>
+        </header>
+        <div class="row">
+        `;
+    fs.writeFile("./team.html", html, function(err) {
+        if (err) {
+            console.log(err);
+        }
+    });
+    console.log("start");
+}
+
+const createHTML = (newEmp) => {
     // use employees array to  build HTML
-    console.log(employees);
+    const name = newEmp.getName();
+    const id = newEmp.getId();
+    const email = newEmp.getEmail();
+    const role = newEmp.getRole();
+    let data = "";
+        if (role === "Engineer") {
+            const gitHub = newEmp.getGithub();
+            data = 
+            `
+    <div class="card mx-auto m-3 shadow-lg" id="manager" style="width: 18rem;">
+        <div class="card-body bg-primary text-white shadow-sm">
+          <h4 class="card-title">${name}</h4>
+          <h5 class="card-title">${role}</h5>
+        </div>
+        <ul class="list-group list-group-flush p-3 ">
+          <li class="list-group-item border">ID:${id}</li>
+          <li class="list-group-item border"><a href="#mailto:${email}">Email:${email}</a></li> 
+          <li class="list-group-item border"><a target="_blank" href="https://github.com/${gitHub}">Github:${gitHub}</a></li> 
+        </ul>
+    </div>
+        `;
+        } 
+        
+        else if (role === "Intern") {
+            const school = newEmp.getSchool();
+            data = `
+        <div class="card mx-auto m-3 shadow-lg" id="manager" style="width: 18rem;">
+            <div class="card-body bg-primary text-white shadow-sm">
+              <h4 class="card-title">${name}</h4>
+              <h5 class="card-title">${role}</h5>
+            </div>
+            <ul class="list-group list-group-flush p-3">
+              <li class="list-group-item border">ID:${id}</li>
+              <li class="list-group-item border"><a href="#mailto:${email}">Email:${email}</a></li> 
+              <li class="list-group-item border">School:${school}</li> 
+            </ul>
+        </div>
+        `;
+        } 
+
+        else if (role === "Manager") {
+            const officeNumber = newEmp.getOfficeNumber();
+            data = `
+            <div class="card mx-auto m-3 shadow-lg" id="manager" style="width: 18rem;">
+                <div class="card-body bg-primary text-white shadow-sm">
+                <h4 class="card-title">${name}</h4>
+                <h5 class="card-title">${role}</h5>
+                 </div>
+                <ul class="list-group list-group-flush p-3">
+                <li class="list-group-item border">ID:${id}</li>
+                <li class="list-group-item border"><a href="#mailto:${email}">Email:${email}</a></li> 
+                <li class="list-group-item border">Office Number:${officeNumber}</a></li> 
+                </ul>
+            </div>
+        `;
+        }
+
+        else{
+            finishHtml();
+            return ("created team");
+        }
+
+        fs.appendFile("./team.html", data, function (err) {
+            if (err) {
+                return reject(err);
+            };
+            return "team member added";
+        });
+
 };
 
+function finishHtml() {
+    const html = `
+    </div>
+</body>
+</html>`;
+
+console.log("end");
+    fs.appendFile("./team.html", html, function (err) {
+        if (err) {
+            console.log(err);
+        };
+    });
+}
+startHtml();
 managerInput();
