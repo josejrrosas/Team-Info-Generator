@@ -50,9 +50,6 @@ Run  npm test in terminal.
 ## Website
 Github Repository: https://github.com/josejrrosas/Team-Info-Generator
 
-Deployed Site: 
-https://josejrrosas.github.io/Team-Info-Generator/
-
 Link to demonstration video :
 https://drive.google.com/file/d/1n4_CF6jnswm46CYrmThWWWkyBEygCDdR/view?usp=sharing
 
