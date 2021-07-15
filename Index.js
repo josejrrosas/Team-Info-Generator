@@ -157,7 +157,7 @@ function startHtml() {
         </header>
         <div class="row">
         `;
-    fs.writeFile("./team.html", html, function(err) {
+    fs.writeFile("./dist/team.html", html, function(err) {
         if (err) {
             console.log(err);
         }
@@ -183,7 +183,7 @@ const createHTML = (newEmp) => {
         </div>
         <ul class="list-group list-group-flush p-3 ">
           <li class="list-group-item border">ID:${id}</li>
-          <li class="list-group-item border"><a href="#mailto:${email}">Email:${email}</a></li> 
+          <li class="list-group-item border"><a href="mailto:${email}">Email:${email}</a></li> 
           <li class="list-group-item border"><a target="_blank" href="https://github.com/${gitHub}">Github:${gitHub}</a></li> 
         </ul>
     </div>
@@ -193,34 +193,34 @@ const createHTML = (newEmp) => {
         else if (role === "Intern") {
             const school = newEmp.getSchool();
             data = `
-        <div class="card mx-auto m-3 shadow-lg" id="manager" style="width: 18rem;">
-            <div class="card-body bg-primary text-white shadow-sm">
-              <h4 class="card-title">${name}</h4>
-              <h5 class="card-title">${role}</h5>
-            </div>
-            <ul class="list-group list-group-flush p-3">
-              <li class="list-group-item border">ID:${id}</li>
-              <li class="list-group-item border"><a href="#mailto:${email}">Email:${email}</a></li> 
-              <li class="list-group-item border">School:${school}</li> 
-            </ul>
+    <div class="card mx-auto m-3 shadow-lg" id="manager" style="width: 18rem;">
+        <div class="card-body bg-primary text-white shadow-sm">
+            <h4 class="card-title">${name}</h4>
+            <h5 class="card-title">${role}</h5>
         </div>
+        <ul class="list-group list-group-flush p-3">
+            <li class="list-group-item border">ID:${id}</li>
+            <li class="list-group-item border"><a href="mailto:${email}">Email:${email}</a></li> 
+            <li class="list-group-item border">School:${school}</li> 
+        </ul>
+    </div>
         `;
         } 
 
         else if (role === "Manager") {
             const officeNumber = newEmp.getOfficeNumber();
             data = `
-            <div class="card mx-auto m-3 shadow-lg" id="manager" style="width: 18rem;">
-                <div class="card-body bg-primary text-white shadow-sm">
-                <h4 class="card-title">${name}</h4>
-                <h5 class="card-title">${role}</h5>
-                 </div>
-                <ul class="list-group list-group-flush p-3">
-                <li class="list-group-item border">ID:${id}</li>
-                <li class="list-group-item border"><a href="#mailto:${email}">Email:${email}</a></li> 
-                <li class="list-group-item border">Office Number:${officeNumber}</a></li> 
-                </ul>
+    <div class="card mx-auto m-3 shadow-lg" id="manager" style="width: 18rem;">
+        <div class="card-body bg-primary text-white shadow-sm">
+        <h4 class="card-title">${name}</h4>
+        <h5 class="card-title">${role}</h5>
             </div>
+        <ul class="list-group list-group-flush p-3">
+        <li class="list-group-item border">ID:${id}</li>
+        <li class="list-group-item border"><a href="mailto:${email}">Email:${email}</a></li> 
+        <li class="list-group-item border">Office Number:${officeNumber}</a></li> 
+        </ul>
+    </div>
         `;
         }
 
@@ -229,7 +229,7 @@ const createHTML = (newEmp) => {
             return ("created team");
         }
 
-        fs.appendFile("./team.html", data, function (err) {
+        fs.appendFile("./dist/team.html", data, function (err) {
             if (err) {
                 return reject(err);
             };
@@ -245,7 +245,7 @@ function finishHtml() {
 </html>`;
 
 console.log("end");
-    fs.appendFile("./team.html", html, function (err) {
+    fs.appendFile("./dist/team.html", html, function (err) {
         if (err) {
             console.log(err);
         };

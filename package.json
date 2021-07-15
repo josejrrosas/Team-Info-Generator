@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "inquirer": "^8.1.2"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6"
+  },
+  "name": "team-info-generator",
+  "description": "",
+  "version": "1.0.0",
+  "main": "Index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josejrrosas/Team-Info-Generator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/josejrrosas/Team-Info-Generator/issues"
+  },
+  "homepage": "https://github.com/josejrrosas/Team-Info-Generator#readme"
+}
